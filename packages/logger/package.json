@@ -1,0 +1,62 @@
+{
+    "name": "@agentlib/logger",
+    "version": "0.1.0",
+    "description": "Structured logging middleware for agentlib — plug-and-play observability for agent runs",
+    "keywords": [
+        "ai",
+        "agent",
+        "logger",
+        "middleware",
+        "agentlib",
+        "typescript",
+        "observability"
+    ],
+    "homepage": "https://github.com/sammwy/agentlib#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sammwy/agentlib.git",
+        "directory": "packages/logger"
+    },
+    "license": "MIT",
+    "author": "sammwy",
+    "sideEffects": false,
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        }
+    },
+    "scripts": {
+        "build": "tsc -p tsconfig.json",
+        "dev": "tsc -p tsconfig.json --watch",
+        "test": "vitest",
+        "typecheck": "tsc -p tsconfig.json --noEmit",
+        "clean": "rm -rf dist *.tsbuildinfo"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "dependencies": {
+        "@agentlib/core": "workspace:^"
+    },
+    "devDependencies": {
+        "typescript": "^5.4.0",
+        "vitest": "^1.6.0"
+    },
+    "files": [
+        "dist",
+        "src",
+        "README.md",
+        "LICENSE"
+    ],
+    "peerDependencies": {
+        "dotenv": ">=16.0.0"
+    },
+    "peerDependenciesMeta": {
+        "dotenv": {
+            "optional": true
+        }
+    }
+}

@@ -1,0 +1,11 @@
+# Build artifacts ignored by pnpm/npm publish (handled by "files" field in package.json)
+# This file is intentionally minimal — the "files" array is the source of truth.
+
+node_modules/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+.turbo/
+*.tsbuildinfo
+coverage/

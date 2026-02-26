@@ -1,0 +1,60 @@
+{
+    "name": "@agentlib/core",
+    "version": "0.1.0",
+    "description": "agentlib core runtime engine — type-safe, extensible AI agent framework for Node.js",
+    "keywords": [
+        "ai",
+        "agent",
+        "llm",
+        "sdk",
+        "openai",
+        "reasoning",
+        "tool-calling",
+        "typescript"
+    ],
+    "homepage": "https://github.com/sammwy/agentlib#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sammwy/agentlib.git",
+        "directory": "packages/core"
+    },
+    "license": "MIT",
+    "author": "sammwy",
+    "sideEffects": false,
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        }
+    },
+    "scripts": {
+        "build": "tsc -p tsconfig.json",
+        "dev": "tsc -p tsconfig.json --watch",
+        "test": "vitest",
+        "typecheck": "tsc -p tsconfig.json --noEmit",
+        "clean": "rm -rf dist *.tsbuildinfo"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "devDependencies": {
+        "typescript": "^5.4.0",
+        "vitest": "^1.6.0"
+    },
+    "files": [
+        "dist",
+        "src",
+        "README.md",
+        "LICENSE"
+    ],
+    "peerDependencies": {
+        "dotenv": ">=16.0.0"
+    },
+    "peerDependenciesMeta": {
+        "dotenv": {
+            "optional": true
+        }
+    }
+}

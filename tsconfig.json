@@ -1,0 +1,27 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@agentlib/core": [
+                "packages/core/src"
+            ],
+            "@agentlib/logger": [
+                "packages/logger/src"
+            ],
+            "@agentlib/memory": [
+                "packages/memory/src"
+            ],
+            "@agentlib/openai": [
+                "packages/openai/src"
+            ],
+            "@agentlib/reasoning": [
+                "packages/reasoning/src"
+            ]
+        }
+    },
+    "include": [
+        "example/**/*.ts",
+        "packages/**/*.ts"
+    ]
+}
