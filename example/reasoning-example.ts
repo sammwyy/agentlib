@@ -3,7 +3,9 @@
  */
 
 // auto-registers all engines
-import {  createAgent, AgentInstance, defineTool  } from '@agentlib/core'
+import "dotenv/config";
+
+import { createAgent, defineTool, ThoughtStep, PlanStep, ReasoningStep } from '@agentlib/core'
 import { openai } from '@agentlib/openai'
 import {
     ReactEngine,
@@ -62,7 +64,7 @@ async function runExamples() {
             .reasoning(new ReactEngine({ maxSteps: 8 }))
         // or: .reasoning('react') — works after importing @agentlib/reasoning
 
-        agent.on('step:reasoning', (step) => {
+        agent.on('step:reasoning', (step: ThoughtStep) => {
             console.log(`[${step.type}]`, step.type === 'thought' ? step.content : '')
         })
 
@@ -83,7 +85,7 @@ async function runExamples() {
                 maxToolSteps: 3,
             }))
 
-        agent.on('step:reasoning', (step) => {
+        agent.on('step:reasoning', (step: ThoughtStep) => {
             if (step.type === 'thought') {
                 console.log('💭 Thinking:', step.content)
             }
@@ -128,7 +130,7 @@ async function runExamples() {
             .tool(writeFileTool)
             .reasoning(new PlannerEngine({ maxExecutionSteps: 15 }))
 
-        agent.on('step:reasoning', (step) => {
+        agent.on('step:reasoning', (step: ReasoningStep) => {
             if (step.type === 'plan') {
                 console.log('📋 Plan:')
                 step.tasks.forEach((t) => console.log(`  [${t.id}] ${t.description}`))
@@ -158,7 +160,7 @@ async function runExamples() {
                 acceptanceThreshold: 8,
             }))
 
-        agent.on('step:reasoning', (step) => {
+        agent.on('step:reasoning', (step: ReasoningStep) => {
             if (step.type === 'reflection') {
                 console.log(`🔍 Reflection: ${step.assessment}`)
                 console.log(`   Needs revision: ${step.needsRevision}`)
@@ -203,7 +205,7 @@ async function runExamples() {
             .reasoning(new AutonomousEngine({ maxSteps: 25 }))
             .policy({ maxSteps: 25, tokenBudget: 50_000 })
 
-        agent.on('step:reasoning', (step) => {
+        agent.on('step:reasoning', (step: ReasoningStep) => {
             if (step.type === 'thought') console.log('🤖', step.content.slice(0, 120))
             if (step.type === 'tool_call') console.log(`🔧 ${step.toolName}(${JSON.stringify(step.args).slice(0, 60)})`)
         })

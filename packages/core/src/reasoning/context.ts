@@ -61,6 +61,7 @@ export function createReasoningContext<TData>(
                 callId,
                 engine: 'runtime',
             }
+            this.pushStep(callStep)
 
             void emitter.emit('tool:before', { tool: name, args })
             await middleware.run({ scope: 'tool:before', ctx, tool: { name, args } })
@@ -80,7 +81,7 @@ export function createReasoningContext<TData>(
                     error,
                     engine: 'runtime',
                 }
-                ctx.state.steps.push(resultStep)
+                this.pushStep(resultStep)
                 ctx.state.toolCalls.push({ call: { id: callId, name, arguments: args }, result: null })
 
                 ctx.state.messages.push({
@@ -101,7 +102,7 @@ export function createReasoningContext<TData>(
                 result,
                 engine: 'runtime',
             }
-            ctx.state.steps.push(resultStep)
+            this.pushStep(resultStep)
             ctx.state.toolCalls.push({ call: { id: callId, name, arguments: args }, result })
 
             ctx.state.messages.push({

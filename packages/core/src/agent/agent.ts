@@ -186,8 +186,4 @@ function createPassthroughEngine<TData>(): ReasoningEngine<TData> {
     }
 }
 
-export function createAgent<TData = unknown>(config?: AgentConfig<TData>): AgentInstance<TData> {
-    return new AgentInstance<TData>(config)
-}
-
 export { defineTool }

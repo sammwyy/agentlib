@@ -146,9 +146,15 @@ export class PlannerEngine<TData = unknown> implements ReasoningEngine<TData> {
 
     private async _makePlan(rCtx: ReasoningContext<TData>): Promise<PlanTask[]> {
         const { ctx } = rCtx
+        const availableTools = rCtx.tools.getSchemas()
+            .filter((t) => rCtx.tools.isAllowed(t.name, rCtx.policy.allowedTools))
+            .map(t => `- ${t.name}: ${t.description}`)
+            .join('\n')
+
+        const toolContext = availableTools ? `\n\nAvailable Tools:\n${availableTools}` : ''
 
         const planMessages: ModelMessage[] = [
-            { role: 'system', content: this.plannerPrompt },
+            { role: 'system', content: this.plannerPrompt + toolContext },
             { role: 'user', content: ctx.input },
         ]
 

@@ -7,7 +7,8 @@
  */
 
 import 'dotenv/config'
-import {  createAgent, AgentInstance, defineTool  } from '@agentlib/core'
+
+import { createAgent, defineTool } from '@agentlib/core'
 import { openai } from '@agentlib/openai'
 import { createLogger } from '@agentlib/logger'
 import { BufferMemory } from '@agentlib/memory'
@@ -45,7 +46,7 @@ interface AppData {
     plan: 'free' | 'pro'
 }
 
-const agent = createAgentInstance<AppData>({
+const agent = createAgent<AppData>({
     name: 'assistant',
     systemPrompt: 'You are a helpful assistant. Use tools when appropriate.',
     data: { userId: 'default', plan: 'free' },

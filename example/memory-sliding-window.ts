@@ -1,5 +1,6 @@
 import 'dotenv/config'
-import {  createAgent, AgentInstance  } from '@agentlib/core'
+
+import { createAgent } from '@agentlib/core'
 import { openai } from '@agentlib/openai'
 import { SlidingWindowMemory } from '@agentlib/memory'
 import { createLogger } from '@agentlib/logger'

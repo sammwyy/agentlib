@@ -2,7 +2,9 @@
 export * from './types'
 
 // Agent
-export { AgentInstance, createAgent, engineRegistry, registerEngine } from './agent/agent'
+export { AgentInstance, engineRegistry, registerEngine } from './agent/agent'
+export { createAgent } from './factory/agent'
+export * from './factory/decorators'
 
 // Tools
 export { ToolRegistry, defineTool } from './tool/registry'
@@ -21,3 +23,6 @@ export { createReasoningContext } from './reasoning/context'
 
 // Memory utilities
 export { estimateTokens, estimateMessagesTokens, trimToTokenBudget } from './memory/tokens'
+
+// Terminal utilities
+export { loopConsolePrompting } from './terminal/prompt'
