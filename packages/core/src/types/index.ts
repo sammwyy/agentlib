@@ -309,6 +309,22 @@ export type CoreEvent =
     | 'cancel'
     | 'error'
 
+export interface AgentEventMap extends Record<string, any> {
+    'run:start': { input: string; sessionId: string }
+    'run:end': { output: string; state: ExecutionState }
+    'step:start': { engine: string }
+    'step:end': { step: ReasoningStep }
+    'step:reasoning': ReasoningStep
+    'model:request': ModelRequest
+    'model:response': ModelResponse
+    'tool:before': { name: string; args: Record<string, unknown> }
+    'tool:after': { name: string; args: Record<string, unknown>; result?: unknown; error?: string }
+    'memory:read': { sessionId: string }
+    'memory:write': { sessionId: string }
+    'cancel': { reason?: any }
+    'error': unknown
+}
+
 export type EventHandler<TPayload = unknown> = (payload: TPayload) => void | Promise<void>
 
 // ─── Agent Policy Types ───────────────────────────────────────────────────────
@@ -326,6 +342,7 @@ export interface AgentPolicy {
 
 export interface AgentConfig<TData = unknown> {
     name: string
+    description?: string
     model?: ModelProvider
     tools?: ToolDefinition<TData>[]
     memory?: MemoryProvider

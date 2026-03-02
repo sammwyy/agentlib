@@ -79,11 +79,22 @@ function extractToolCalls(
 ): ToolCall[] | undefined {
     const calls = choice.message.tool_calls
     if (!calls?.length) return undefined
-    return calls.map((tc) => ({
-        id: tc.id,
-        name: tc.function.name,
-        arguments: JSON.parse(tc.function.arguments) as Record<string, unknown>,
-    }))
+    return calls.map((tc) => {
+        let args: Record<string, unknown> = {}
+        try {
+            const rawArgs = tc.function.arguments || '{}'
+            args = JSON.parse(rawArgs) as Record<string, unknown>
+        } catch (err) {
+            console.error(`[OpenAIProvider] Failed to parse tool arguments: "${tc.function.arguments}". Error: ${err}`)
+            args = {}
+        }
+
+        return {
+            id: tc.id,
+            name: tc.function.name,
+            arguments: args,
+        }
+    })
 }
 
 function extractUsage(usage: OpenAI.CompletionUsage | undefined): TokenUsage | undefined {
@@ -105,6 +116,7 @@ export class OpenAIProvider implements ModelProvider {
         this.config = {
             model: 'gpt-4o',
             temperature: 0.7,
+            maxTokens: 128000,
             ...config,
         } as OpenAIProviderConfig & { model: string; temperature: number }
 
@@ -120,7 +132,7 @@ export class OpenAIProvider implements ModelProvider {
             model: this.config.model,
             temperature: this.config.temperature,
             messages: toOpenAIMessages(request.messages, this.config.model),
-            ...(this.config.maxTokens ? { max_tokens: this.config.maxTokens } : {}),
+            max_tokens: this.config.maxTokens ?? null,
             ...(request.tools && request.tools.length > 0
                 ? {
                     tools: toOpenAITools(request.tools),
@@ -131,6 +143,10 @@ export class OpenAIProvider implements ModelProvider {
 
         const choice = completion.choices[0]
         if (!choice) throw new Error('[OpenAIProvider] Empty response from API.')
+
+        if (choice.finish_reason === 'length') {
+            console.warn(`[OpenAIProvider] Response truncated (maxTokens: ${this.config.maxTokens}). Resulting JSON might be invalid.`)
+        }
 
         const toolCalls = extractToolCalls(choice)
 

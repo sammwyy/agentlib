@@ -1,4 +1,5 @@
 import type {
+    AgentEventMap,
     AgentPolicy,
     ExecutionContext,
     ModelProvider,
@@ -8,7 +9,7 @@ import type {
     ToolResultStep,
 } from '../types'
 import type { ToolRegistry } from '../tool/registry'
-import type { EventEmitter } from '../event/emitter'
+import { EventEmitter } from '@agentlib/utils'
 import type { MiddlewarePipeline } from '../middleware/pipeline'
 
 export interface CreateReasoningContextOptions<TData> {
@@ -17,7 +18,7 @@ export interface CreateReasoningContextOptions<TData> {
     tools: ToolRegistry<TData>
     policy: AgentPolicy
     systemPrompt?: string | undefined
-    emitter: EventEmitter
+    emitter: EventEmitter<AgentEventMap>
     middleware: MiddlewarePipeline<TData>
 }
 
@@ -63,7 +64,7 @@ export function createReasoningContext<TData>(
             }
             this.pushStep(callStep)
 
-            void emitter.emit('tool:before', { tool: name, args })
+            void emitter.emit('tool:before', { name, args })
             await middleware.run({ scope: 'tool:before', ctx, tool: { name, args } })
 
             let result: unknown
@@ -90,7 +91,7 @@ export function createReasoningContext<TData>(
                     toolCallId: callId,
                 })
 
-                void emitter.emit('tool:after', { tool: name, error })
+                void emitter.emit('tool:after', { name, args, error })
                 await middleware.run({ scope: 'tool:after', ctx, tool: { name, args, result: null } })
                 throw err
             }
@@ -111,7 +112,7 @@ export function createReasoningContext<TData>(
                 toolCallId: callId,
             })
 
-            void emitter.emit('tool:after', { tool: name, result })
+            void emitter.emit('tool:after', { name, args, result })
             await middleware.run({ scope: 'tool:after', ctx, tool: { name, args, result } })
 
             return result

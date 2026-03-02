@@ -24,9 +24,15 @@ importers:
       '@agentlib/openai':
         specifier: workspace:^
         version: link:packages/openai
+      '@agentlib/orchestrator':
+        specifier: workspace:^
+        version: link:packages/orchestrator
       '@agentlib/reasoning':
         specifier: workspace:^
         version: link:packages/reasoning
+      '@agentlib/utils':
+        specifier: workspace:^
+        version: link:packages/utils
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.33
@@ -54,6 +60,9 @@ importers:
 
   packages/core:
     dependencies:
+      '@agentlib/utils':
+        specifier: workspace:^
+        version: link:../utils
       dotenv:
         specifier: '>=16.0.0'
         version: 17.3.1
@@ -119,11 +128,39 @@ importers:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.33)
 
+  packages/orchestrator:
+    dependencies:
+      '@agentlib/core':
+        specifier: workspace:^
+        version: link:../core
+      '@agentlib/memory':
+        specifier: workspace:^
+        version: link:../memory
+      '@agentlib/utils':
+        specifier: workspace:^
+        version: link:../utils
+    devDependencies:
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.33)
+
   packages/reasoning:
     dependencies:
       '@agentlib/core':
         specifier: workspace:^
         version: link:../core
+    devDependencies:
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.33)
+
+  packages/utils:
     devDependencies:
       typescript:
         specifier: ^5.4.0

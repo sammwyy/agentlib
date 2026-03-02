@@ -1,5 +1,6 @@
 import type {
     AgentConfig,
+    AgentEventMap,
     AgentPolicy,
     CoreEvent,
     EventHandler,
@@ -13,7 +14,7 @@ import type {
     RunResult,
     ToolDefinition,
 } from '../types'
-import { EventEmitter } from '../event/emitter'
+import { EventEmitter } from '@agentlib/utils'
 import { ToolRegistry, defineTool } from '../tool/registry'
 import { MiddlewarePipeline } from '../middleware/pipeline'
 import { createContext } from '../context/factory'
@@ -31,7 +32,7 @@ export class AgentInstance<TData = unknown> {
     private _policy: AgentPolicy = {}
     private readonly _tools: ToolRegistry<TData> = new ToolRegistry()
     private readonly _middleware: MiddlewarePipeline<TData> = new MiddlewarePipeline()
-    private readonly _emitter: EventEmitter = new EventEmitter()
+    private readonly _emitter = new EventEmitter<AgentEventMap>()
     private readonly _store = new Map<string, unknown>()
 
     constructor(config: AgentConfig<TData> = { name: 'agent' }) {
@@ -69,7 +70,7 @@ export class AgentInstance<TData = unknown> {
     set(key: string, value: unknown): this { this._store.set(key, value); return this }
     get(key: string): unknown { return this._store.get(key) }
 
-    on<TPayload = unknown>(event: CoreEvent | string, handler: EventHandler<TPayload>): this {
+    on<K extends keyof AgentEventMap>(event: K, handler: EventHandler<AgentEventMap[K]>): this {
         this._emitter.on(event, handler)
         return this
     }
@@ -97,6 +98,13 @@ export class AgentInstance<TData = unknown> {
             await this._emitter.emit('error', err)
             throw err
         }
+    }
+
+    /**
+     * Stop the current execution(s) of this agent.
+     */
+    cancel(reason?: string): void {
+        void this._emitter.emit('cancel', { reason })
     }
 
     private async _executeWithEngine(ctx: ExecutionContext<TData>): Promise<string> {

@@ -1,22 +1,21 @@
 {
-    "name": "@agentlib/core",
+    "name": "@agentlib/orchestrator",
     "version": "0.1.0",
-    "description": "agentlib core runtime engine — type-safe, extensible AI agent framework for Node.js",
+    "description": "Agent orchestrator for agentlib — Multi-agent orchestration and meta-agents",
     "keywords": [
         "ai",
         "agent",
+        "orchestrator",
+        "meta-agent",
         "llm",
-        "sdk",
-        "openai",
-        "reasoning",
-        "tool-calling",
+        "agentlib",
         "typescript"
     ],
     "homepage": "https://github.com/sammwy/agentlib#readme",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/sammwy/agentlib.git",
-        "directory": "packages/core"
+        "directory": "packages/orchestrator"
     },
     "license": "MIT",
     "author": "sammwy",
@@ -39,6 +38,11 @@
     "engines": {
         "node": ">=18.0.0"
     },
+    "dependencies": {
+        "@agentlib/core": "workspace:^",
+        "@agentlib/memory": "workspace:^",
+        "@agentlib/utils": "workspace:^"
+    },
     "devDependencies": {
         "typescript": "^5.4.0",
         "vitest": "^1.6.0"
@@ -48,17 +52,5 @@
         "src",
         "README.md",
         "LICENSE"
-    ],
-    "peerDependencies": {
-        "dotenv": ">=16.0.0"
-    },
-    "peerDependenciesMeta": {
-        "dotenv": {
-            "optional": true
-        }
-    },
-    "dependencies": {
-        "reflect-metadata": "^0.2.2",
-        "@agentlib/utils": "workspace:^"
-    }
+    ]
 }

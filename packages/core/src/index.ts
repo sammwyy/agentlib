@@ -13,7 +13,7 @@ export { ToolRegistry, defineTool } from './tool/registry'
 export { MiddlewarePipeline } from './middleware/pipeline'
 
 // Event
-export { EventEmitter } from './event/emitter'
+export { EventEmitter } from '@agentlib/utils'
 
 // Context
 export { createContext } from './context/factory'
