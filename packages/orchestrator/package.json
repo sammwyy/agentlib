@@ -1,6 +1,6 @@
 {
     "name": "@agentlib/orchestrator",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Agent orchestrator for agentlib — Multi-agent orchestration and meta-agents",
     "keywords": [
         "ai",

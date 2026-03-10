@@ -1,6 +1,6 @@
 {
     "name": "@agentlib/openai",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "OpenAI model provider for agentlib — supports GPT-4o, o1, o3-mini and any OpenAI-compatible API",
     "keywords": [
         "ai",

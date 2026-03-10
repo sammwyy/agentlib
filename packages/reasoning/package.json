@@ -1,6 +1,6 @@
 {
     "name": "@agentlib/reasoning",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Reasoning engines for agentlib — ReAct, Planner, Chain-of-Thought, Reflect, Autonomous",
     "keywords": [
         "ai",

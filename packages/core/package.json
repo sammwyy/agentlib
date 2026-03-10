@@ -1,6 +1,6 @@
 {
     "name": "@agentlib/core",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "agentlib core runtime engine — type-safe, extensible AI agent framework for Node.js",
     "keywords": [
         "ai",
